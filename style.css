@@ -246,9 +246,16 @@ button:active{
 
     transform-style:preserve-3d;
 
-    transition:1s;
+    transition:
+        transform 1s ease,
+        opacity .6s ease;
 
     cursor:pointer;
+
+    opacity:0;
+    
+
+}
 
 }
 
@@ -386,5 +393,9 @@ small{
         font-size:46px;
 
     }
+
+.card.visible{
+
+    opacity:1;
 
 }
