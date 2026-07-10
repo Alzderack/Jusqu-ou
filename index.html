@@ -8,24 +8,16 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
 
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-    }
-    .title-font {
-      font-family: 'Playfair Display', serif;
-    }
-
-    .wheel-container {
-      position: relative;
-    }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .title-font { font-family: 'Playfair Display', serif; }
 
     .wheel {
       width: 320px;
       height: 320px;
-      border: 12px solid #facc15;
+      border: 14px solid #facc15;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 0 40px rgba(250, 204, 21, 0.6);
+      box-shadow: 0 0 50px rgba(250, 204, 21, 0.7);
       transition: transform 3.8s cubic-bezier(0.25, 0.1, 0.2, 1);
       position: relative;
     }
@@ -40,17 +32,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 13px;
       font-weight: 600;
       color: white;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+      text-shadow: 0 2px 4px rgba(0,0,0,0.7);
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen flex items-center justify-center overflow-hidden">
+<body class="bg-zinc-950 text-white min-h-screen overflow-hidden">
 
-  <!-- Screen 1 -->
-  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6">
-    <h1 class="title-font text-7xl font-bold tracking-tighter mb-2">JUSQU'OÙ ?</h1>
+  <!-- Écran 1 -->
+  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6 transition-opacity duration-700">
+    <h1 class="title-font text-7xl font-bold tracking-tighter mb-1">JUSQU'OÙ ?</h1>
     <p class="text-amber-400 text-xl mb-12">LE JEU</p>
 
     <div class="bg-zinc-900/80 backdrop-blur-xl rounded-3xl p-10 max-w-md w-full border border-zinc-700">
@@ -60,48 +53,46 @@
     </div>
 
     <button onclick="startExperience()" 
-            class="mt-16 bg-white text-zinc-950 font-semibold text-xl px-14 py-7 rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl">
+            class="mt-16 bg-white text-zinc-950 font-semibold text-xl px-14 py-7 rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-2xl">
       Découvrir
     </button>
   </div>
 
-  <!-- Wheel Screen -->
+  <!-- Roue -->
   <div id="wheelScreen" class="hidden min-h-screen w-full flex flex-col items-center justify-center px-6">
-    <div class="wheel-container">
-      <div id="wheel" class="wheel">
-        <!-- Segments -->
-        <div class="segment" style="transform: rotate(0deg); background: #eab308;">Bonus</div>
-        <div class="segment" style="transform: rotate(45deg); background: #f59e0b;">Trésor</div>
-        <div class="segment" style="transform: rotate(90deg); background: #eab308;">Surprise</div>
-        <div class="segment" style="transform: rotate(135deg); background: #f59e0b;">Carte Rare</div>
-        <div class="segment" style="transform: rotate(180deg); background: #eab308;">Bonus</div>
-        <div class="segment" style="transform: rotate(225deg); background: #f59e0b;">Trésor</div>
-        <div class="segment" style="transform: rotate(270deg); background: #eab308;">Surprise</div>
-        <div class="segment" style="transform: rotate(315deg); background: #f59e0b; color: #fff;">Carte Mystère</div>
+    <div class="relative">
+      <div id="wheel" class="wheel mx-auto">
+        <div class="segment" style="transform: rotate(0deg); background: #ca8a04;">Bonus</div>
+        <div class="segment" style="transform: rotate(45deg); background: #d97706;">Trésor</div>
+        <div class="segment" style="transform: rotate(90deg); background: #ca8a04;">Surprise</div>
+        <div class="segment" style="transform: rotate(135deg); background: #d97706;">Carte Rare</div>
+        <div class="segment" style="transform: rotate(180deg); background: #ca8a04;">Bonus</div>
+        <div class="segment" style="transform: rotate(225deg); background: #d97706;">Trésor</div>
+        <div class="segment" style="transform: rotate(270deg); background: #ca8a04;">Surprise</div>
+        <div class="segment" style="transform: rotate(315deg); background: #d97706;">Carte Mystère</div>
       </div>
-      <!-- Flèche -->
-      <div class="absolute -top-4 left-1/2 -translate-x-1/2 text-6xl z-20">▼</div>
+      <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-6xl drop-shadow-lg">▼</div>
     </div>
-    <p class="mt-10 text-zinc-400 text-lg">La chance tourne...</p>
+    <p class="mt-10 text-zinc-400">La chance tourne...</p>
   </div>
 
-  <!-- Card Screen -->
+  <!-- Carte -->
   <div id="cardScreen" class="hidden min-h-screen w-full flex items-center justify-center px-6">
-    <div id="mysteryCard" class="card w-full max-w-xs cursor-pointer" onclick="flipCard()">
-      <div class="card-inner relative w-full aspect-[3/4] rounded-3xl shadow-2xl">
-        <!-- Front -->
-        <div class="card-front absolute inset-0 bg-zinc-900 rounded-3xl border-4 border-amber-400 flex flex-col items-center justify-center">
+    <div id="mysteryCard" class="w-full max-w-xs cursor-pointer" onclick="flipCard()">
+      <div class="relative w-full aspect-[3/4] rounded-3xl shadow-2xl transition-transform duration-700" style="transform-style: preserve-3d;">
+        <!-- Face avant -->
+        <div class="absolute inset-0 bg-zinc-900 rounded-3xl border-4 border-amber-400 flex flex-col items-center justify-center backface-hidden">
           <div class="text-8xl mb-6">?</div>
           <h2 class="text-4xl font-bold title-font">Carte Mystère</h2>
           <p class="text-amber-400 mt-8">Touchez pour révéler</p>
         </div>
         
-        <!-- Back -->
-        <div class="card-back absolute inset-0 bg-gradient-to-br from-rose-800 to-purple-900 rounded-3xl flex flex-col items-center justify-center text-center p-6">
+        <!-- Dos -->
+        <div class="absolute inset-0 bg-gradient-to-br from-rose-800 via-purple-900 to-rose-900 rounded-3xl flex flex-col items-center justify-center text-center p-6 backface-hidden" style="transform: rotateY(180deg);">
           <div class="text-6xl mb-4">❤️</div>
           <p class="text-2xl tracking-widest text-amber-200">FÉLICITATIONS</p>
-          <h1 class="title-font text-6xl font-bold mt-3 leading-none">TU VAS DEVENIR</h1>
-          <h1 class="title-font text-[78px] leading-none font-bold text-amber-300 tracking-tighter mt-1">MAMIE</h1>
+          <h1 class="title-font text-6xl font-bold mt-2 leading-none">TU VAS DEVENIR</h1>
+          <h1 class="title-font text-8xl font-bold text-amber-300 tracking-tighter leading-none mt-1">MAMIE</h1>
         </div>
       </div>
     </div>
@@ -110,38 +101,29 @@
   <canvas id="confetti" class="hidden fixed inset-0 pointer-events-none z-50"></canvas>
 
   <script>
-    let isSpinning = false;
-
     function startExperience() {
       document.getElementById('screen1').style.opacity = '0';
       setTimeout(() => {
         document.getElementById('screen1').classList.add('hidden');
         document.getElementById('wheelScreen').classList.remove('hidden');
         spinWheel();
-      }, 600);
+      }, 700);
     }
 
     function spinWheel() {
-      if (isSpinning) return;
-      isSpinning = true;
-
       const wheel = document.getElementById('wheel');
-      
-      // 8 tours + arrêt précis sur "Carte Mystère"
-      const rotations = 8 * 360;
-      const finalAngle = 315; // position de "Carte Mystère"
-      wheel.style.transform = `rotate(${rotations + finalAngle}deg)`;
+      wheel.style.transform = 'rotate(3240deg)'; // 9 tours + position finale
 
       setTimeout(() => {
         document.getElementById('wheelScreen').classList.add('hidden');
         document.getElementById('cardScreen').classList.remove('hidden');
-      }, 4000);
+      }, 3900);
     }
 
     function flipCard() {
-      const card = document.getElementById('mysteryCard');
-      card.classList.add('flipped');
-      setTimeout(launchConfetti, 700);
+      const card = document.getElementById('mysteryCard').querySelector('div');
+      card.style.transform = 'rotateY(180deg)';
+      setTimeout(launchConfetti, 800);
     }
 
     function launchConfetti() {
@@ -151,41 +133,41 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      const colors = ['#facc15', '#eab308', '#ec4899', '#c026d3', '#f43f5e'];
+      const colors = ['#facc15', '#eab308', '#ec4899', '#c026d3'];
       const pieces = [];
 
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 180; i++) {
         pieces.push({
           x: Math.random() * canvas.width,
-          y: Math.random() * -300,
-          size: Math.random() * 10 + 8,
+          y: Math.random() * -400,
+          size: Math.random() * 11 + 7,
           color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 7 + 5,
-          angle: Math.random() * 1.2 - 0.6,
-          rotation: Math.random() * 360
+          speed: Math.random() * 8 + 5,
+          angle: Math.random() * 1.4 - 0.7,
+          rot: Math.random() * 360
         });
       }
 
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let active = false;
+        let alive = false;
 
         pieces.forEach(p => {
           p.y += p.speed;
-          p.rotation += 12;
+          p.rot += 15;
           p.x += p.angle;
 
           ctx.save();
           ctx.translate(p.x, p.y);
-          ctx.rotate(p.rotation * Math.PI / 180);
+          ctx.rotate(p.rot * Math.PI / 180);
           ctx.fillStyle = p.color;
           ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
           ctx.restore();
 
-          if (p.y < canvas.height + 100) active = true;
+          if (p.y < canvas.height + 100) alive = true;
         });
 
-        if (active) requestAnimationFrame(animate);
+        if (alive) requestAnimationFrame(animate);
         else canvas.classList.add('hidden');
       }
       animate();
