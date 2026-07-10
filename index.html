@@ -5,117 +5,103 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JUSQU'OÙ ?</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
-
-    :root {
-      --gold: #facc15;
-    }
 
     body {
       font-family: 'Inter', system-ui, sans-serif;
     }
-
     .title-font {
       font-family: 'Playfair Display', serif;
     }
 
+    .wheel-container {
+      position: relative;
+    }
+
     .wheel {
-      transition: transform 3.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+      width: 320px;
+      height: 320px;
+      border: 12px solid #facc15;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(250, 204, 21, 0.6);
+      transition: transform 3.8s cubic-bezier(0.25, 0.1, 0.2, 1);
+      position: relative;
     }
 
-    .card {
-      perspective: 1000px;
-      cursor: pointer;
-    }
-
-    .card-inner {
-      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform-style: preserve-3d;
-    }
-
-    .card.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      backface-visibility: hidden;
-    }
-
-    .card-back {
-      transform: rotateY(180deg);
-    }
-
-    .confetti {
+    .segment {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-      animation: fall linear forwards;
-    }
-
-    @keyframes fall {
-      to {
-        transform: translateY(800px) rotate(720deg);
-        opacity: 0;
-      }
+      width: 50%;
+      height: 50%;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0% 0%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.6);
     }
   </style>
 </head>
 <body class="bg-zinc-950 text-white min-h-screen flex items-center justify-center overflow-hidden">
-  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6 transition-opacity duration-700">
-    <div class="mb-12">
-      <h1 class="title-font text-7xl md:text-8xl font-bold tracking-tighter text-white mb-2">JUSQU'OÙ ?</h1>
-      <p class="text-amber-400 text-xl font-light tracking-widest">LE JEU</p>
-    </div>
 
-    <div class="bg-zinc-900/80 backdrop-blur-xl rounded-3xl p-10 max-w-md w-full border border-zinc-800">
+  <!-- Screen 1 -->
+  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6">
+    <h1 class="title-font text-7xl font-bold tracking-tighter mb-2">JUSQU'OÙ ?</h1>
+    <p class="text-amber-400 text-xl mb-12">LE JEU</p>
+
+    <div class="bg-zinc-900/80 backdrop-blur-xl rounded-3xl p-10 max-w-md w-full border border-zinc-700">
       <div class="text-6xl mb-6">🎁</div>
       <h2 class="text-3xl font-semibold mb-3">Contenu bonus débloqué</h2>
-      <p class="text-zinc-400 text-lg">Vous avez découvert une carte spéciale.</p>
+      <p class="text-zinc-400">Vous avez découvert une carte spéciale.</p>
     </div>
 
     <button onclick="startExperience()" 
-            class="mt-16 bg-white text-zinc-900 font-semibold text-xl px-12 py-6 rounded-2xl hover:scale-105 active:scale-95 transition-all duration-200 shadow-2xl shadow-amber-500/30">
+            class="mt-16 bg-white text-zinc-950 font-semibold text-xl px-14 py-7 rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl">
       Découvrir
     </button>
   </div>
 
   <!-- Wheel Screen -->
   <div id="wheelScreen" class="hidden min-h-screen w-full flex flex-col items-center justify-center px-6">
-    <div class="relative">
-      <div id="wheel" class="wheel w-80 h-80 rounded-full border-8 border-amber-400 overflow-hidden relative shadow-2xl">
-        <div class="absolute inset-0 bg-gradient-to-br from-amber-300 via-yellow-400 to-amber-500"></div>
+    <div class="wheel-container">
+      <div id="wheel" class="wheel">
         <!-- Segments -->
-        <div class="absolute inset-0" style="background: conic-gradient(#eab308 0deg 45deg, #f59e0b 45deg 90deg, #eab308 90deg 135deg, #f59e0b 135deg 180deg, #eab308 180deg 225deg, #f59e0b 225deg 270deg, #eab308 270deg 315deg, #f59e0b 315deg 360deg);"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-20 h-20 bg-zinc-900 rounded-full border-4 border-white flex items-center justify-center text-4xl">?</div>
-        </div>
+        <div class="segment" style="transform: rotate(0deg); background: #eab308;">Bonus</div>
+        <div class="segment" style="transform: rotate(45deg); background: #f59e0b;">Trésor</div>
+        <div class="segment" style="transform: rotate(90deg); background: #eab308;">Surprise</div>
+        <div class="segment" style="transform: rotate(135deg); background: #f59e0b;">Carte Rare</div>
+        <div class="segment" style="transform: rotate(180deg); background: #eab308;">Bonus</div>
+        <div class="segment" style="transform: rotate(225deg); background: #f59e0b;">Trésor</div>
+        <div class="segment" style="transform: rotate(270deg); background: #eab308;">Surprise</div>
+        <div class="segment" style="transform: rotate(315deg); background: #f59e0b; color: #fff;">Carte Mystère</div>
       </div>
-      <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-5xl z-10">⭐</div>
+      <!-- Flèche -->
+      <div class="absolute -top-4 left-1/2 -translate-x-1/2 text-6xl z-20">▼</div>
     </div>
-
-    <p class="mt-12 text-zinc-400 text-lg">Révélation en cours...</p>
+    <p class="mt-10 text-zinc-400 text-lg">La chance tourne...</p>
   </div>
 
   <!-- Card Screen -->
   <div id="cardScreen" class="hidden min-h-screen w-full flex items-center justify-center px-6">
-    <div id="mysteryCard" class="card w-full max-w-xs" onclick="flipCard()">
+    <div id="mysteryCard" class="card w-full max-w-xs cursor-pointer" onclick="flipCard()">
       <div class="card-inner relative w-full aspect-[3/4] rounded-3xl shadow-2xl">
         <!-- Front -->
-        <div class="card-front absolute inset-0 bg-zinc-900 rounded-3xl border border-amber-400 flex flex-col items-center justify-center p-8">
+        <div class="card-front absolute inset-0 bg-zinc-900 rounded-3xl border-4 border-amber-400 flex flex-col items-center justify-center">
           <div class="text-8xl mb-6">?</div>
-          <h2 class="text-4xl font-bold text-center title-font">Carte Mystère</h2>
-          <p class="text-amber-400 mt-8 text-center">Touchez pour révéler</p>
+          <h2 class="text-4xl font-bold title-font">Carte Mystère</h2>
+          <p class="text-amber-400 mt-8">Touchez pour révéler</p>
         </div>
         
         <!-- Back -->
-        <div class="card-back absolute inset-0 bg-gradient-to-br from-rose-900 to-purple-900 rounded-3xl flex flex-col items-center justify-center p-8 text-center">
-          <div class="text-6xl mb-6">❤️</div>
-          <p class="text-amber-300 text-xl tracking-widest">FÉLICITATIONS</p>
-          <h1 class="title-font text-7xl font-bold mt-4 leading-none text-white drop-shadow-lg">TU VAS DEVENIR</h1>
-          <h1 class="title-font text-[92px] font-bold leading-none text-amber-300 tracking-tighter drop-shadow-2xl mt-2">MAMIE</h1>
+        <div class="card-back absolute inset-0 bg-gradient-to-br from-rose-800 to-purple-900 rounded-3xl flex flex-col items-center justify-center text-center p-6">
+          <div class="text-6xl mb-4">❤️</div>
+          <p class="text-2xl tracking-widest text-amber-200">FÉLICITATIONS</p>
+          <h1 class="title-font text-6xl font-bold mt-3 leading-none">TU VAS DEVENIR</h1>
+          <h1 class="title-font text-[78px] leading-none font-bold text-amber-300 tracking-tighter mt-1">MAMIE</h1>
         </div>
       </div>
     </div>
@@ -124,67 +110,69 @@
   <canvas id="confetti" class="hidden fixed inset-0 pointer-events-none z-50"></canvas>
 
   <script>
+    let isSpinning = false;
+
     function startExperience() {
       document.getElementById('screen1').style.opacity = '0';
       setTimeout(() => {
         document.getElementById('screen1').classList.add('hidden');
         document.getElementById('wheelScreen').classList.remove('hidden');
         spinWheel();
-      }, 700);
+      }, 600);
     }
 
     function spinWheel() {
+      if (isSpinning) return;
+      isSpinning = true;
+
       const wheel = document.getElementById('wheel');
-      // 3.2 secondes de rotation + léger overshoot
-      wheel.style.transform = 'rotate(3240deg)'; // 9 tours complets
+      
+      // 8 tours + arrêt précis sur "Carte Mystère"
+      const rotations = 8 * 360;
+      const finalAngle = 315; // position de "Carte Mystère"
+      wheel.style.transform = `rotate(${rotations + finalAngle}deg)`;
 
       setTimeout(() => {
         document.getElementById('wheelScreen').classList.add('hidden');
         document.getElementById('cardScreen').classList.remove('hidden');
-      }, 3400);
+      }, 4000);
     }
 
     function flipCard() {
       const card = document.getElementById('mysteryCard');
       card.classList.add('flipped');
-
-      // Lancer les confettis après la fin de la rotation
-      setTimeout(() => {
-        launchConfetti();
-      }, 600);
+      setTimeout(launchConfetti, 700);
     }
 
     function launchConfetti() {
       const canvas = document.getElementById('confetti');
       canvas.classList.remove('hidden');
       const ctx = canvas.getContext('2d');
-      
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
       const colors = ['#facc15', '#eab308', '#ec4899', '#c026d3', '#f43f5e'];
-      const confettiPieces = [];
+      const pieces = [];
 
-      for (let i = 0; i < 180; i++) {
-        confettiPieces.push({
+      for (let i = 0; i < 200; i++) {
+        pieces.push({
           x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height - 500,
-          rotation: Math.random() * 360,
-          size: Math.random() * 12 + 6,
+          y: Math.random() * -300,
+          size: Math.random() * 10 + 8,
           color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 6 + 4,
-          angle: Math.random() * 0.6 - 0.3
+          speed: Math.random() * 7 + 5,
+          angle: Math.random() * 1.2 - 0.6,
+          rotation: Math.random() * 360
         });
       }
 
-      let animationFrame;
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let stillAlive = false;
+        let active = false;
 
-        confettiPieces.forEach(p => {
+        pieces.forEach(p => {
           p.y += p.speed;
-          p.rotation += 8;
+          p.rotation += 12;
           p.x += p.angle;
 
           ctx.save();
@@ -194,31 +182,14 @@
           ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
           ctx.restore();
 
-          if (p.y < canvas.height + 50) stillAlive = true;
+          if (p.y < canvas.height + 100) active = true;
         });
 
-        if (stillAlive) {
-          animationFrame = requestAnimationFrame(animate);
-        } else {
-          canvas.classList.add('hidden');
-        }
+        if (active) requestAnimationFrame(animate);
+        else canvas.classList.add('hidden');
       }
       animate();
-
-      // Arrêt progressif
-      setTimeout(() => {
-        cancelAnimationFrame(animationFrame);
-      }, 4500);
     }
-
-    // Responsive canvas
-    window.addEventListener('resize', () => {
-      const canvas = document.getElementById('confetti');
-      if (canvas) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-    });
   </script>
 </body>
 </html>
