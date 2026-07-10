@@ -1,88 +1,260 @@
-body {
-    margin: 0;
-    font-family: Georgia, serif;
-    background: #1d1b18;
-    color: #f4e7c1;
-    text-align: center;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-header {
-    background: #3b2b17;
-    padding: 30px;
-    box-shadow: 0 0 20px black;
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:linear-gradient(180deg,#0b1120,#18253d);
+
+    color:white;
+
+    overflow:hidden;
+
+    height:100vh;
+
 }
 
-h1 {
-    margin: 0;
-    font-size: 48px;
+#background{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    radial-gradient(circle at top,#27406f 0%,transparent 60%),
+    radial-gradient(circle at bottom,#0b1120 0%,#05070d 100%);
+
+    z-index:-2;
+
 }
 
-nav {
-    margin-top: 15px;
+#background::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background-image:
+    radial-gradient(rgba(255,255,255,.25) 1px,transparent 1px);
+
+    background-size:45px 45px;
+
+    opacity:.12;
+
+    animation:stars 30s linear infinite;
+
 }
 
-nav a {
-    color: #e0c27a;
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 18px;
+@keyframes stars{
+
+from{
+
+transform:translateY(0);
+
 }
 
-main {
-    margin-top: 80px;
+to{
+
+transform:translateY(-45px);
+
 }
 
-button {
-    background: #b8860b;
-    color: white;
-    border: none;
-    padding: 18px 40px;
-    font-size: 22px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-progress{
-    width:320px;
-    height:22px;
-    margin-top:25px;
 }
 
-#pourcentage{
-    font-size:28px;
-    margin-top:10px;
+#app{
+
+    width:100%;
+
+    max-width:500px;
+
+    margin:auto;
+
+    height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    padding:30px;
+
 }
 
-#etat{
-    font-size:22px;
-    line-height:1.8;
+#logo{
+
+    width:240px;
+
+    margin-bottom:35px;
+
+    filter:drop-shadow(0 0 25px rgba(255,215,0,.35));
+
+    animation:float 4s ease-in-out infinite;
+
 }
 
-#detail{
-    margin-top:25px;
-    line-height:1.8;
-    font-size:20px;
-}
-
-#coffre{
-    animation:pulse 0.8s infinite;
-}
-
-@keyframes pulse{
+@keyframes float{
 
 0%{
-transform:scale(1);
+
+transform:translateY(0px);
+
 }
 
 50%{
-transform:scale(1.15);
+
+transform:translateY(-8px);
+
 }
 
 100%{
-transform:scale(1);
-}
+
+transform:translateY(0px);
 
 }
 
-button:hover {
-    background: #d4a017;
+}
+
+h1{
+
+    font-family:'Cinzel',serif;
+
+    font-size:40px;
+
+    margin-bottom:20px;
+
+}
+
+.subtitle{
+
+    font-size:20px;
+
+    line-height:1.8;
+
+    opacity:.9;
+
+    margin-bottom:50px;
+
+}
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+    padding:18px 38px;
+
+    border-radius:999px;
+
+    color:#222;
+
+    font-weight:700;
+
+    background:linear-gradient(180deg,#ffe48b,#d9a62b);
+
+    box-shadow:
+    0 12px 30px rgba(0,0,0,.35),
+    0 0 35px rgba(255,215,0,.25);
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    transform:scale(1.06);
+
+}
+
+button:active{
+
+    transform:scale(.97);
+
+}
+
+.fadeOut{
+
+    animation:fadeOut .6s forwards;
+
+}
+
+@keyframes fadeOut{
+
+to{
+
+opacity:0;
+
+transform:translateY(-20px);
+
+}
+
+}
+
+.fadeIn{
+
+    animation:fadeIn .6s;
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@media(max-width:600px){
+
+#logo{
+
+width:190px;
+
+}
+
+h1{
+
+font-size:30px;
+
+}
+
+.subtitle{
+
+font-size:17px;
+
+}
+
+button{
+
+width:100%;
+
+font-size:18px;
+
+}
+
 }
