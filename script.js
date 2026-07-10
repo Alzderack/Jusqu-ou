@@ -12,7 +12,6 @@ const wheel = document.getElementById("wheel");
 const wheelText = document.getElementById("wheelText");
 
 const card = document.getElementById("card");
-const echo = document.getElementById("echo");
 
 // Empêche plusieurs clics
 let started = false;
