@@ -1,134 +1,327 @@
-const bouton = document.getElementById("recompense");
-const contenu = document.getElementById("contenu");
+const app = document.getElementById("app");
 
-function attendre(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+document.getElementById("startButton").addEventListener("click", showWheel);
+
+function showWheel(){
+
+    app.classList.add("fadeOut");
+
+    setTimeout(()=>{
+
+        app.innerHTML=`
+
+            <img src="assets/logo.png" id="logo">
+
+            <h1 class="fadeIn">
+                Faites tourner la roue
+            </h1>
+
+            <p class="subtitle fadeIn">
+
+                Une seule récompense peut être obtenue.
+
+            </p>
+
+            <div id="wheelContainer">
+
+                <div id="wheel">
+
+                    <div class="slice s1">🃏 Carte</div>
+                    <div class="slice s2">💎 Booster</div>
+                    <div class="slice s3">📜 Extension</div>
+                    <div class="slice s4">👑 Titre</div>
+                    <div class="slice s5">🎨 Fond</div>
+                    <div class="slice s6 mystery">❓ Mystère</div>
+
+                </div>
+
+                <div id="pointer"></div>
+
+            </div>
+
+            <button id="spinButton">
+
+                Lancer la roue
+
+            </button>
+
+        `;
+
+        app.classList.remove("fadeOut");
+
+        document
+            .getElementById("spinButton")
+            .addEventListener("click",spinWheel);
+
+    },500);
+
 }
 
-bouton.addEventListener("click", async () => {
+let spinning=false;
 
-    contenu.innerHTML = `
-        <h2>📡 Analyse du QR Code...</h2>
+function spinWheel(){
 
-        <p id="etat">Connexion au serveur...</p>
+    if(spinning) return;
 
-        <progress id="barre" max="100" value="0"></progress>
+    spinning=true;
 
-        <p id="pourcentage">0 %</p>
-    `;
+    const wheel=document.getElementById("wheel");
 
-    const barre = document.getElementById("barre");
-    const pourcentage = document.getElementById("pourcentage");
-    const etat = document.getElementById("etat");
+    wheel.style.transition="transform 5s cubic-bezier(.15,.9,.15,1)";
 
-    for (let i = 0; i <= 100; i++) {
-        barre.value = i;
-        pourcentage.innerText = i + " %";
-        await attendre(35);
-    }
+    wheel.style.transform="rotate(1710deg)";
 
-    etat.innerHTML = `
-        ✅ Carte authentifiée<br>
-        ✅ Partie terminée<br>
-        ✅ Récompense disponible
-    `;
+    setTimeout(showMysteryCard,5200);
 
-    await attendre(2000);
+}
 
-    contenu.innerHTML = `
-        <h2>🎁 Récompense détectée</h2>
+function showMysteryCard(){
 
-        <p>Une récompense exclusive est disponible.</p>
+    app.classList.add("fadeOut");
 
-        <button id="ouvrir">🗝 Ouvrir le coffre</button>
-    `;
+    setTimeout(()=>{
 
-    document.getElementById("ouvrir").onclick = ouvrirCoffre;
+        app.innerHTML=`
 
-});
+            <img src="assets/logo.png" id="logo">
 
-async function ouvrirCoffre() {
+            <div id="card">
 
-    contenu.innerHTML = `
-        <h2>Ouverture du coffre...</h2>
+                <div id="cardInner">
 
-        <div id="coffre" style="font-size:120px">📦</div>
+                    <div class="cardFace cardBack">
 
-        <p id="texte">Déverrouillage...</p>
-    `;
+                        <h2>🃏</h2>
 
-    await attendre(2000);
+                        <p>CARTE MYSTÈRE</p>
 
-    document.getElementById("coffre").innerHTML = "💰";
-    document.getElementById("texte").innerHTML = "Trésor découvert.";
+                    </div>
 
-    await attendre(2000);
+                    <div class="cardFace cardFront">
 
-    contenu.innerHTML = `
-        <h2>📥 Téléchargement de l'extension</h2>
+                        <h2>❤️</h2>
 
-        <p id="info">Préparation...</p>
+                        <h1>DEVENIR</h1>
 
-        <progress id="telechargement" max="100" value="0"></progress>
+                        <h1>MAMIE</h1>
 
-        <p id="detail"></p>
-    `;
+                        <p>
 
-    const barre = document.getElementById("telechargement");
-    const detail = document.getElementById("detail");
-    const info = document.getElementById("info");
+                            La plus belle des aventures
+                            vous attend.
 
-    for (let i = 0; i <= 100; i++) {
+                        </p>
 
-        barre.value = i;
+                    </div>
 
-        if (i === 15)
-            detail.innerHTML = "✔ 12 nouvelles cartes";
+                </div>
 
-        if (i === 35)
-            detail.innerHTML += "<br>✔ 2 nouveaux dangers";
+            </div>
 
-        if (i === 55)
-            detail.innerHTML += "<br>✔ 1 nouveau trésor";
+            <button id="flipButton">
 
-        if (i === 72)
-            detail.innerHTML += "<br><br><b>Poids :</b> 3,2 kg";
+                Retourner la carte
 
-        if (i === 82)
-            detail.innerHTML += "<br><b>Classe :</b> Papa";
+            </button>
 
-        if (i === 90)
-            detail.innerHTML += "<br><b>Classe :</b> Maman";
+        `;
 
-        await attendre(40);
-    }
+        app.classList.remove("fadeOut");
 
-    info.innerHTML = "Erreur...";
+        document
+            .getElementById("flipButton")
+            .onclick=flipCard;
 
-    await attendre(1800);
+    },500);
 
-    contenu.innerHTML = `
-        <h2>⚠ Une erreur est survenue</h2>
+}
 
-        <p>Recherche d'une autre récompense...</p>
-    `;
+function flipCard(){
 
-    await attendre(3000);
+    document
+        .getElementById("cardInner")
+        .classList.add("flip");
 
-    contenu.innerHTML = `
-        <h1 style="font-size:80px;">👶</h1>
+    document
+        .getElementById("flipButton")
+        .remove();
 
-        <h2>Le plus grand trésor...</h2>
+    setTimeout(()=>{
 
-        <p>n'était pas caché dans le donjon.</p>
+        const img=document.createElement("img");
 
-        <br>
+        img.src="assets/echographie.jpg";
 
-        <h1>Bébé KRET</h1>
+        img.id="echo";
 
-        <h2>Arrivée prévue en janvier 2027 ❤️</h2>
+        document
+            .getElementById("app")
+            .appendChild(img);
 
-        <p>Merci de partager cette aventure avec nous.</p>
-    `;
+    },1200);
+
+}
+#wheelContainer{
+
+    position:relative;
+
+    width:300px;
+    height:300px;
+
+    margin:40px 0;
+
+}
+
+#wheel{
+
+    width:100%;
+    height:100%;
+
+    border-radius:50%;
+
+    background:conic-gradient(
+
+    #ffd54f 0deg 60deg,
+    #f5c542 60deg 120deg,
+    #ffe082 120deg 180deg,
+    #ffca28 180deg 240deg,
+    #ffd54f 240deg 300deg,
+    #fbc02d 300deg 360deg
+
+    );
+
+    border:8px solid white;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:0 0 40px rgba(255,215,0,.3);
+
+}
+
+.slice{
+
+    position:absolute;
+
+    width:120px;
+
+    text-align:center;
+
+    left:90px;
+
+    top:20px;
+
+    transform-origin:60px 130px;
+
+    font-weight:bold;
+
+    font-size:15px;
+
+}
+
+.s2{transform:rotate(60deg);}
+.s3{transform:rotate(120deg);}
+.s4{transform:rotate(180deg);}
+.s5{transform:rotate(240deg);}
+.s6{transform:rotate(300deg);}
+
+#pointer{
+
+    position:absolute;
+
+    top:-15px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:0;
+    height:0;
+
+    border-left:18px solid transparent;
+    border-right:18px solid transparent;
+    border-top:35px solid white;
+
+}
+
+#card{
+
+    perspective:1000px;
+
+    margin:40px auto;
+
+}
+
+#cardInner{
+
+    width:260px;
+    height:380px;
+
+    margin:auto;
+
+    position:relative;
+
+    transform-style:preserve-3d;
+
+    transition:1s;
+
+}
+
+.flip{
+
+    transform:rotateY(180deg);
+
+}
+
+.cardFace{
+
+    position:absolute;
+
+    width:100%;
+    height:100%;
+
+    border-radius:20px;
+
+    backface-visibility:hidden;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:25px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.35);
+
+}
+
+.cardBack{
+
+    background:#223557;
+
+}
+
+.cardFront{
+
+    background:linear-gradient(#fff6d4,#f4d57b);
+
+    color:#222;
+
+    transform:rotateY(180deg);
+
+}
+
+#echo{
+
+    width:260px;
+
+    border-radius:15px;
+
+    margin-top:30px;
+
+    animation:fadeIn .8s;
 
 }
