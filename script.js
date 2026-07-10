@@ -1,5 +1,5 @@
 // ===========================
-// Récupération des éléments
+// Éléments
 // ===========================
 
 const welcome = document.getElementById("welcome");
@@ -13,21 +13,19 @@ const wheelText = document.getElementById("wheelText");
 
 const card = document.getElementById("card");
 
-// Empêche plusieurs clics
 let started = false;
 
 // ===========================
-// Bouton principal
+// Démarrage
 // ===========================
 
 startButton.addEventListener("click", () => {
 
-    if(started) return;
+    if (started) return;
 
     started = true;
 
-    // vibration smartphone
-    if(navigator.vibrate){
+    if (navigator.vibrate) {
         navigator.vibrate(40);
     }
 
@@ -39,49 +37,40 @@ startButton.addEventListener("click", () => {
 
         lancerRoue();
 
-    },500);
+    }, 500);
 
 });
 
-
 // ===========================
-// Animation roue
+// Roue
 // ===========================
 
-function lancerRoue(){
+function lancerRoue() {
 
-    wheelText.innerHTML="Recherche de votre récompense...";
+    wheelText.textContent = "Recherche de votre récompense...";
 
-    // environ 7 tours + arrêt précis
-    const tours = 360*7;
-
-    // Le pointeur est en haut.
-    // On veut finir sur le secteur "Carte Mystère"
-    // (on ajustera l'angle plus tard si besoin)
-
+    const tours = 360 * 7;
     const angleFinal = tours + 315;
 
     wheel.style.transition =
         "transform 4.8s cubic-bezier(.18,.95,.15,1)";
 
-    wheel.style.transform =
-        `rotate(${angleFinal}deg)`;
+    wheel.style.transform = `rotate(${angleFinal}deg)`;
 
-    setTimeout(finRoue,4900);
+    setTimeout(finRoue, 4900);
 
 }
 
-
 // ===========================
-// Fin roue
+// Fin de la roue
 // ===========================
 
-function finRoue(){
+function finRoue() {
 
-    wheelText.innerHTML="Carte Mystère !";
+    wheelText.textContent = "Carte Mystère !";
 
-    if(navigator.vibrate){
-        navigator.vibrate([80,50,80]);
+    if (navigator.vibrate) {
+        navigator.vibrate([80, 50, 80]);
     }
 
     setTimeout(() => {
@@ -92,32 +81,19 @@ function finRoue(){
 
         apparitionCarte();
 
-    },900);
+    }, 800);
 
 }
 
-
 // ===========================
-// Apparition carte
+// Apparition de la carte
 // ===========================
 
-function apparitionCarte(){
+function apparitionCarte() {
 
-    card.style.opacity="0";
-    card.style.transform="scale(.4)";
-
-    requestAnimationFrame(()=>{
-
-        card.style.transition="all .6s ease";
-
-        card.style.opacity="1";
-
-        card.style.transform="scale(1)";
-
-    });
+    card.classList.add("visible");
 
 }
-
 
 // ===========================
 // Retourner la carte
