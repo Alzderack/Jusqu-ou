@@ -1,44 +1,112 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUSQU'OÙ ?</title>
 
-<title>JUSQU'OÙ ?</title>
+    <meta name="theme-color" content="#111827">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
-<link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="background"></div>
+<div id="backgroundGlow"></div>
 
-<div id="app">
+<main id="app">
 
-    <img src="assets/logo.png" id="logo">
+    <!-- Écran d'accueil -->
 
-    <h1>Contenu bonus débloqué</h1>
+    <section id="welcome" class="screen active">
 
-    <p class="subtitle">
-        Merci d'avoir joué à <strong>JUSQU'OÙ ?</strong><br><br>
+        <div class="logo">
+            JUSQU'OÙ ?
+        </div>
 
-        Une récompense exclusive vous attend.
-    </p>
+        <h1>🎁 Contenu bonus débloqué</h1>
 
-    <button id="startButton">
+        <p>
+            Félicitations !
+            <br>
+            Vous avez trouvé la carte mystère.
+        </p>
 
-        Découvrir ma récompense
+        <button id="startButton">
+            Découvrir ma récompense
+        </button>
 
-    </button>
+    </section>
 
-</div>
+
+    <!-- Animation -->
+
+    <section id="wheelScreen" class="screen">
+
+        <div class="wheelContainer">
+
+            <div id="wheel">
+
+                <div class="wheelCenter"></div>
+
+                <div id="pointer"></div>
+
+            </div>
+
+        </div>
+
+        <h2 id="wheelText">
+            Recherche de votre récompense...
+        </h2>
+
+    </section>
+
+
+    <!-- Carte -->
+
+    <section id="cardScreen" class="screen">
+
+        <div id="card" class="card">
+
+            <div class="cardFace cardFront">
+
+                <span class="questionMark">?</span>
+
+                <p>Carte Mystère</p>
+
+                <small>Touchez pour révéler</small>
+
+            </div>
+
+            <div class="cardFace cardBack">
+
+                <h2>❤️</h2>
+
+                <h1>Devenir Mamie</h1>
+
+                <p class="subtitle">
+                    Une nouvelle aventure commence...
+                </p>
+
+            </div>
+
+        </div>
+
+        <img
+            id="echo"
+            src="echographie.jpg"
+            alt="Échographie">
+
+    </section>
+
+</main>
 
 <script src="script.js"></script>
 
