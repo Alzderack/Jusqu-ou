@@ -6,55 +6,71 @@
   <title>JUSQU'OÙ ?</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=UnifrakturCook:wght@700&display=swap');
 
     body { font-family: 'Inter', system-ui, sans-serif; }
     .title-font { font-family: 'Playfair Display', serif; }
+    .fantasy-font { font-family: 'UnifrakturCook', cursive; }
 
     .wheel {
-      width: 320px;
-      height: 320px;
-      border: 14px solid #facc15;
+      width: 340px;
+      height: 340px;
+      border: 16px solid #d4af37;
       border-radius: 50%;
       overflow: hidden;
-      box-shadow: 0 0 50px rgba(250, 204, 21, 0.7);
-      transition: transform 3.8s cubic-bezier(0.25, 0.1, 0.2, 1);
-      position: relative;
+      box-shadow: 0 0 60px rgba(212, 175, 55, 0.8);
+      transition: transform 4.2s cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 
-    .segment {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 50%;
-      left: 50%;
-      transform-origin: 0% 0%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 600;
-      color: white;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.7);
+    .card {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 3 / 4.1;
+      border: 10px solid #d4af37;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px -10px rgb(0 0 0 / 0.8);
+      cursor: pointer;
+    }
+
+    .card-inner {
+      transition: transform 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      backface-visibility: hidden;
+      border-radius: 4px;
+    }
+
+    .mamie-text {
+      text-shadow: 
+        0 0 20px #fcd34d,
+        0 0 40px #f59e0b,
+        3px 3px 0 #451a03;
     }
   </style>
 </head>
-<body class="bg-zinc-950 text-white min-h-screen overflow-hidden">
+<body class="bg-[#0a0603] text-white min-h-screen flex items-center justify-center overflow-hidden">
 
-  <!-- Écran 1 -->
-  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6 transition-opacity duration-700">
-    <h1 class="title-font text-7xl font-bold tracking-tighter mb-1">JUSQU'OÙ ?</h1>
-    <p class="text-amber-400 text-xl mb-12">LE JEU</p>
+  <!-- Screen 1 -->
+  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6">
+    <h1 class="title-font text-6xl font-black tracking-tighter text-amber-200 mb-1">JUSQU'OÙ ?</h1>
+    <p class="text-amber-400 text-lg">LE JEU</p>
 
-    <div class="bg-zinc-900/80 backdrop-blur-xl rounded-3xl p-10 max-w-md w-full border border-zinc-700">
+    <div class="mt-12 bg-[#1c140d] border border-amber-900/70 rounded-2xl p-8 max-w-sm">
       <div class="text-6xl mb-6">🎁</div>
-      <h2 class="text-3xl font-semibold mb-3">Contenu bonus débloqué</h2>
-      <p class="text-zinc-400">Vous avez découvert une carte spéciale.</p>
+      <h2 class="text-3xl font-bold mb-3">Contenu bonus débloqué</h2>
+      <p class="text-amber-100/80">Vous avez découvert une carte spéciale.</p>
     </div>
 
     <button onclick="startExperience()" 
-            class="mt-16 bg-white text-zinc-950 font-semibold text-xl px-14 py-7 rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-2xl">
-      Découvrir
+            class="mt-16 bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400 text-zinc-950 font-bold text-2xl px-16 py-6 rounded-xl transition-all border-2 border-amber-700 shadow-2xl">
+      DÉCOUVRIR
     </button>
   </div>
 
@@ -62,37 +78,32 @@
   <div id="wheelScreen" class="hidden min-h-screen w-full flex flex-col items-center justify-center px-6">
     <div class="relative">
       <div id="wheel" class="wheel mx-auto">
-        <div class="segment" style="transform: rotate(0deg); background: #ca8a04;">Bonus</div>
-        <div class="segment" style="transform: rotate(45deg); background: #d97706;">Trésor</div>
-        <div class="segment" style="transform: rotate(90deg); background: #ca8a04;">Surprise</div>
-        <div class="segment" style="transform: rotate(135deg); background: #d97706;">Carte Rare</div>
-        <div class="segment" style="transform: rotate(180deg); background: #ca8a04;">Bonus</div>
-        <div class="segment" style="transform: rotate(225deg); background: #d97706;">Trésor</div>
-        <div class="segment" style="transform: rotate(270deg); background: #ca8a04;">Surprise</div>
-        <div class="segment" style="transform: rotate(315deg); background: #d97706;">Carte Mystère</div>
+        <div class="absolute inset-0" style="background: conic-gradient(#b45309 0deg 45deg, #854d0e 45deg 90deg, #b45309 90deg 135deg, #854d0e 135deg 180deg, #b45309 180deg 225deg, #854d0e 225deg 270deg, #b45309 270deg 315deg, #854d0e 315deg 360deg);"></div>
       </div>
-      <div class="absolute -top-6 left-1/2 -translate-x-1/2 text-6xl drop-shadow-lg">▼</div>
+      <div class="absolute -top-10 left-1/2 -translate-x-1/2 text-7xl drop-shadow-xl">▼</div>
     </div>
-    <p class="mt-10 text-zinc-400">La chance tourne...</p>
+    <p class="mt-10 text-amber-300 text-xl">La chance tourne...</p>
   </div>
 
   <!-- Carte -->
   <div id="cardScreen" class="hidden min-h-screen w-full flex items-center justify-center px-6">
-    <div id="mysteryCard" class="w-full max-w-xs cursor-pointer" onclick="flipCard()">
-      <div class="relative w-full aspect-[3/4] rounded-3xl shadow-2xl transition-transform duration-700" style="transform-style: preserve-3d;">
+    <div id="mysteryCard" class="card" onclick="flipCard()">
+      <div class="card-inner relative w-full h-full">
+
         <!-- Face avant -->
-        <div class="absolute inset-0 bg-zinc-900 rounded-3xl border-4 border-amber-400 flex flex-col items-center justify-center backface-hidden">
-          <div class="text-8xl mb-6">?</div>
-          <h2 class="text-4xl font-bold title-font">Carte Mystère</h2>
-          <p class="text-amber-400 mt-8">Touchez pour révéler</p>
+        <div class="card-front absolute inset-0 bg-[#1c140d] flex flex-col items-center justify-center text-center">
+          <div class="text-8xl mb-8">?</div>
+          <h2 class="title-font text-4xl font-bold text-amber-300 tracking-widest">CARTE MYSTÈRE</h2>
+          <p class="text-amber-400 mt-10">Touchez pour révéler</p>
         </div>
-        
-        <!-- Dos -->
-        <div class="absolute inset-0 bg-gradient-to-br from-rose-800 via-purple-900 to-rose-900 rounded-3xl flex flex-col items-center justify-center text-center p-6 backface-hidden" style="transform: rotateY(180deg);">
-          <div class="text-6xl mb-4">❤️</div>
-          <p class="text-2xl tracking-widest text-amber-200">FÉLICITATIONS</p>
-          <h1 class="title-font text-6xl font-bold mt-2 leading-none">TU VAS DEVENIR</h1>
-          <h1 class="title-font text-8xl font-bold text-amber-300 tracking-tighter leading-none mt-1">MAMIE</h1>
+
+        <!-- Face arrière -->
+        <div class="card-back absolute inset-0 bg-[#1a120b] flex flex-col items-center justify-center text-center p-6">
+          <div class="text-7xl mb-6">❤️</div>
+          <p class="text-amber-300 text-2xl tracking-[3px] font-bold">FÉLICITATIONS</p>
+          
+          <h1 class="title-font text-6xl font-black tracking-tighter text-amber-100 mt-6 leading-none">TU VAS DEVENIR</h1>
+          <h1 class="mamie-text fantasy-font text-[88px] leading-none font-black text-amber-300 tracking-[-4px] mt-2">MAMIE</h1>
         </div>
       </div>
     </div>
@@ -112,17 +123,17 @@
 
     function spinWheel() {
       const wheel = document.getElementById('wheel');
-      wheel.style.transform = 'rotate(3240deg)'; // 9 tours + position finale
+      // 9 tours + position finale
+      wheel.style.transform = 'rotate(3270deg)';
 
       setTimeout(() => {
         document.getElementById('wheelScreen').classList.add('hidden');
         document.getElementById('cardScreen').classList.remove('hidden');
-      }, 3900);
+      }, 4300);
     }
 
     function flipCard() {
-      const card = document.getElementById('mysteryCard').querySelector('div');
-      card.style.transform = 'rotateY(180deg)';
+      document.getElementById('mysteryCard').classList.add('flipped');
       setTimeout(launchConfetti, 800);
     }
 
@@ -133,16 +144,16 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      const colors = ['#facc15', '#eab308', '#ec4899', '#c026d3'];
+      const colors = ['#d4af37', '#fcd34d', '#b45309', '#f59e0b'];
       const pieces = [];
 
-      for (let i = 0; i < 180; i++) {
+      for (let i = 0; i < 200; i++) {
         pieces.push({
           x: Math.random() * canvas.width,
           y: Math.random() * -400,
-          size: Math.random() * 11 + 7,
+          size: Math.random() * 13 + 7,
           color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 8 + 5,
+          speed: Math.random() * 8 + 4,
           angle: Math.random() * 1.4 - 0.7,
           rot: Math.random() * 360
         });
@@ -154,7 +165,7 @@
 
         pieces.forEach(p => {
           p.y += p.speed;
-          p.rot += 15;
+          p.rot += 12;
           p.x += p.angle;
 
           ctx.save();
