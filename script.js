@@ -124,21 +124,14 @@ function apparitionCarte(){
 // Retourner la carte
 // ===========================
 
-card.addEventListener("click",()=>{
+card.addEventListener("click", () => {
 
-    if(card.classList.contains("flipped"))
-        return;
+    if (card.classList.contains("flipped")) return;
 
     card.classList.add("flipped");
 
-    if(navigator.vibrate){
+    if (navigator.vibrate) {
         navigator.vibrate(120);
     }
-
-    setTimeout(()=>{
-
-        echo.classList.add("show");
-
-    },900);
 
 });
