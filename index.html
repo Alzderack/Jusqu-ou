@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
     <title>JUSQU'OÙ ?</title>
 
     <meta name="theme-color" content="#111827">
-    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -23,7 +25,9 @@
 
 <main id="app">
 
+    <!-- ========================= -->
     <!-- Écran d'accueil -->
+    <!-- ========================= -->
 
     <section id="welcome" class="screen active">
 
@@ -36,17 +40,19 @@
         <p>
             Félicitations !
             <br>
-            Vous avez trouvé la carte mystère.
+            Vous avez trouvé une récompense secrète.
         </p>
 
         <button id="startButton">
-            Découvrir ma récompense
+            Découvrir le contenu secret
         </button>
 
     </section>
 
 
-    <!-- Animation -->
+    <!-- ========================= -->
+    <!-- Roue -->
+    <!-- ========================= -->
 
     <section id="wheelScreen" class="screen">
 
@@ -69,11 +75,15 @@
     </section>
 
 
+    <!-- ========================= -->
     <!-- Carte -->
+    <!-- ========================= -->
 
     <section id="cardScreen" class="screen">
 
         <div id="card" class="card">
+
+            <!-- Face avant -->
 
             <div class="cardFace cardFront">
 
@@ -85,24 +95,29 @@
 
             </div>
 
+            <!-- Face arrière -->
+
             <div class="cardFace cardBack">
 
-                <h2>❤️</h2>
+                <div class="heart">
+                    ❤️
+                </div>
 
-                <h1>Devenir Mamie</h1>
+                <div class="titleReveal">
+                    TU VAS DEVENIR
+                </div>
 
-                <p class="subtitle">
-                    Une nouvelle aventure commence...
-                </p>
+                <div class="mamie">
+                    MAMIE
+                </div>
+
+                <div class="baby">
+                    👶
+                </div>
 
             </div>
 
         </div>
-
-        <img
-            id="echo"
-            src="echographie.jpg"
-            alt="Échographie">
 
     </section>
 
@@ -111,4 +126,5 @@
 <script src="script.js"></script>
 
 </body>
+
 </html>
