@@ -41,6 +41,47 @@ button {
     border-radius: 10px;
     cursor: pointer;
 }
+progress{
+    width:320px;
+    height:22px;
+    margin-top:25px;
+}
+
+#pourcentage{
+    font-size:28px;
+    margin-top:10px;
+}
+
+#etat{
+    font-size:22px;
+    line-height:1.8;
+}
+
+#detail{
+    margin-top:25px;
+    line-height:1.8;
+    font-size:20px;
+}
+
+#coffre{
+    animation:pulse 0.8s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.15);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
 
 button:hover {
     background: #d4a017;
