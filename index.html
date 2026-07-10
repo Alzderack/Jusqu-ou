@@ -6,11 +6,11 @@
   <title>JUSQU'OÙ ?</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cinzel:wght@700;900&family=UnifrakturCook:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cinzel:wght@700;900&display=swap');
 
     body { font-family: 'Inter', system-ui, sans-serif; }
     .title-font { font-family: 'Playfair Display', serif; }
-    .fantasy-font { font-family: 'Cinzel', serif; } /* ← Police changée */
+    .fantasy-font { font-family: 'Cinzel', serif; }
 
     .wheel {
       width: 340px;
@@ -34,16 +34,12 @@
     }
 
     .mamie-text {
-      text-shadow: 
-        0 0 15px #fcd34d,
-        0 0 35px #f59e0b,
-        4px 4px 0 #451a03;
+      text-shadow: 0 0 20px #fcd34d, 0 0 40px #f59e0b, 4px 4px 0 #451a03;
     }
   </style>
 </head>
 <body class="bg-[#0a0603] text-white min-h-screen flex items-center justify-center overflow-hidden">
 
-  <!-- Screen 1 (inchangé) -->
   <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center text-center px-6">
     <h1 class="title-font text-6xl font-black tracking-tighter text-amber-200 mb-1">JUSQU'OÙ ?</h1>
     <p class="text-amber-400 text-lg">LE JEU</p>
@@ -54,13 +50,11 @@
       <p class="text-amber-100/80">Vous avez découvert une carte spéciale.</p>
     </div>
 
-    <button onclick="startExperience()" 
-            class="mt-16 bg-gradient-to-b from-amber-300 to-amber-500 text-zinc-950 font-bold text-2xl px-16 py-6 rounded-xl transition-all border-2 border-amber-700 shadow-2xl">
+    <button onclick="startExperience()" class="mt-16 bg-gradient-to-b from-amber-300 to-amber-500 text-zinc-950 font-bold text-2xl px-16 py-6 rounded-xl transition-all border-2 border-amber-700 shadow-2xl">
       DÉCOUVRIR
     </button>
   </div>
 
-  <!-- Roue -->
   <div id="wheelScreen" class="hidden min-h-screen w-full flex flex-col items-center justify-center px-6">
     <div class="relative">
       <div id="wheel" class="wheel mx-auto"></div>
@@ -69,23 +63,18 @@
     <p class="mt-10 text-amber-300 text-xl">La chance tourne...</p>
   </div>
 
-  <!-- Carte -->
   <div id="cardScreen" class="hidden min-h-screen w-full flex items-center justify-center px-6">
     <div id="mysteryCard" class="card" onclick="flipCard()">
       <div class="card-inner relative w-full h-full">
-
-        <!-- Face avant -->
         <div class="card-front absolute inset-0 bg-[#1c140d] flex flex-col items-center justify-center text-center">
           <div class="text-8xl mb-8">?</div>
           <h2 class="title-font text-4xl font-bold text-amber-300 tracking-widest">CARTE MYSTÈRE</h2>
           <p class="text-amber-400 mt-10">Touchez pour révéler</p>
         </div>
 
-        <!-- Face arrière -->
         <div class="card-back absolute inset-0 bg-[#1a120b] flex flex-col items-center justify-center text-center p-6">
           <div class="text-7xl mb-6">❤️</div>
           <p class="text-amber-300 text-2xl tracking-widest font-bold">FÉLICITATIONS</p>
-          
           <h1 class="title-font text-6xl font-black tracking-tighter text-amber-100 mt-6 leading-none">TU VAS DEVENIR</h1>
           <h1 class="mamie-text fantasy-font text-[82px] leading-none font-black text-amber-300 tracking-[-2px] mt-1">MAMIE</h1>
         </div>
@@ -101,18 +90,12 @@
       setTimeout(() => {
         document.getElementById('screen1').classList.add('hidden');
         document.getElementById('wheelScreen').classList.remove('hidden');
-        spinWheel();
+        document.getElementById('wheel').style.transform = 'rotate(3340deg)';
+        setTimeout(() => {
+          document.getElementById('wheelScreen').classList.add('hidden');
+          document.getElementById('cardScreen').classList.remove('hidden');
+        }, 4300);
       }, 700);
-    }
-
-    function spinWheel() {
-      const wheel = document.getElementById('wheel');
-      wheel.style.transform = 'rotate(3340deg)';
-      
-      setTimeout(() => {
-        document.getElementById('wheelScreen').classList.add('hidden');
-        document.getElementById('cardScreen').classList.remove('hidden');
-      }, 4300);
     }
 
     function flipCard() {
@@ -145,22 +128,18 @@
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         let alive = false;
-
         pieces.forEach(p => {
           p.y += p.speed;
           p.rot += 12;
           p.x += p.angle;
-
           ctx.save();
           ctx.translate(p.x, p.y);
           ctx.rotate(p.rot * Math.PI / 180);
           ctx.fillStyle = p.color;
           ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
           ctx.restore();
-
           if (p.y < canvas.height + 100) alive = true;
         });
-
         if (alive) requestAnimationFrame(animate);
         else canvas.classList.add('hidden');
       }
