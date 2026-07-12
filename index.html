@@ -1,190 +1,425 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JUSQU'OÙ ?</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cinzel:wght@700;900&display=swap');
-
-    body { font-family: 'Inter', system-ui, sans-serif; background: #0a0603; color: white; }
-    .title-font { font-family: 'Playfair Display', serif; }
-    .fantasy-font { font-family: 'Cinzel', serif; }
-
-    .wheel {
-      width: 340px;
-      height: 340px;
-      border: 16px solid #d4af37;
-      border-radius: 50%;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 60px rgba(212, 175, 55, 0.8);
-      transition: transform 4.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
-
-    .wheel::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: conic-gradient(#b45309 0deg 45deg, #854d0e 45deg 90deg, #b45309 90deg 135deg, #854d0e 135deg 180deg, #b45309 180deg 225deg, #854d0e 225deg 270deg, #b45309 270deg 315deg, #854d0e 315deg 360deg);
-    }
-
-    .card {
-      width: 100%;
-      max-width: 380px;
-      aspect-ratio: 3 / 4.1;
-      border: 10px solid #d4af37;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .card-inner {
-      width: 100%;
-      height: 100%;
-      transition: transform 1.2s;
-      transform-style: preserve-3d;
-    }
-
-    .card.flipped .card-inner {
-      transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-      position: absolute;
-      inset: 0;
-      backface-visibility: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .card-back {
-      transform: rotateY(180deg);
-      background: #1a120b;
-    }
-
-    .mamie-text {
-      text-shadow: 0 0 25px #fcd34d, 0 0 45px #f59e0b, 4px 4px 0 #451a03;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Jusqu'où ?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Inter:wght@300;400;500&amp;display=swap');
+        
+        :root {
+            --gold: #f5c462;
+            --amber: #e8b923;
+        }
+        
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background: radial-gradient(circle at center, #1a1208 0%, #0a0703 100%);
+            color: #f5f0e6;
+            overflow-x: hidden;
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .glass {
+            background: rgba(26, 18, 8, 0.75);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+        
+        .golden-glow {
+            text-shadow: 
+                0 0 20px rgb(245 196 98),
+                0 0 40px rgb(232 185 35),
+                0 0 60px rgb(245 196 98 / 0.5);
+        }
+        
+        .heart {
+            animation: floatHeart 6s ease-in-out infinite;
+        }
+        
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(8deg); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .reveal-section {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+    </style>
 </head>
-<body class="min-h-screen flex items-center justify-center overflow-hidden">
+<body class="min-h-screen flex items-center justify-center relative">
+    <!-- Background canvas -->
+    <canvas id="bgCanvas" class="absolute inset-0 z-0 pointer-events-none"></canvas>
 
-  <!-- Screen 1 -->
-  <div id="screen1" class="min-h-screen w-full flex flex-col items-center justify-center px-6 text-center">
-    <h1 class="title-font text-6xl font-black text-amber-200">JUSQU'OÙ ?</h1>
-    <p class="text-amber-400">LE JEU</p>
-
-    <div class="mt-12 bg-[#1c140d] border border-amber-900 rounded-2xl p-8 max-w-sm w-full">
-      <div class="text-6xl mb-6">🎁</div>
-      <h2 class="text-3xl font-bold">Contenu bonus débloqué</h2>
-      <p class="text-amber-100/80 mt-2">Vous avez découvert une carte spéciale.</p>
-    </div>
-
-    <button onclick="startExperience()" class="mt-16 bg-amber-400 hover:bg-amber-300 text-zinc-950 font-bold text-2xl px-16 py-6 rounded-2xl transition-all">
-      DÉCOUVRIR
-    </button>
-  </div>
-
-  <!-- Wheel -->
-  <div id="wheelScreen" class="hidden min-h-screen w-full flex flex-col items-center justify-center px-6">
-    <div class="relative">
-      <div id="wheel" class="wheel mx-auto"></div>
-      <div class="absolute top-[-30px] left-1/2 -translate-x-1/2 text-7xl">▼</div>
-    </div>
-    <p class="mt-10 text-amber-300 text-xl">La chance tourne...</p>
-  </div>
-
-  <!-- Card -->
-  <div id="cardScreen" class="hidden min-h-screen w-full flex items-center justify-center px-6">
-    <div id="mysteryCard" class="card" onclick="flipCard()">
-      <div class="card-inner">
-        <!-- Front -->
-        <div class="card-front bg-[#1c140d]">
-          <div class="text-8xl mb-8">?</div>
-          <h2 class="title-font text-4xl font-bold text-amber-300">CARTE MYSTÈRE</h2>
-          <p class="text-amber-400 mt-10">Touchez pour révéler</p>
+    <!-- Initial Screen -->
+    <div id="initial-screen" class="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center w-full max-w-md mx-auto">
+        <div class="mb-12">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <div class="w-3 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+                <span class="text-amber-400 text-sm tracking-[4px] font-medium">CHAPITRE FINAL</span>
+                <div class="w-3 h-px bg-gradient-to-r from-transparent via-amber-400 to-transparent"></div>
+            </div>
+            <h1 class="title-font text-7xl md:text-8xl font-bold text-white tracking-tighter golden-glow">JUSQU'OÙ ?</h1>
+            <p class="text-2xl text-amber-300 mt-2 tracking-widest">Le Jeu</p>
         </div>
-        <!-- Back -->
-        <div class="card-back">
-          <div class="text-7xl mb-6">❤️</div>
-          <p class="text-amber-300 text-2xl tracking-widest">FÉLICITATIONS</p>
-          <h1 class="title-font text-6xl font-black text-amber-100 mt-6">TU VAS DEVENIR</h1>
-          <h1 class="mamie-text fantasy-font text-[82px] leading-none font-black text-amber-300">MAMIE</h1>
+
+        <!-- Card -->
+        <div class="glass rounded-3xl p-10 w-full max-w-sm border border-amber-400/20">
+            <div class="flex justify-center mb-8">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-amber-400 to-yellow-600 flex items-center justify-center shadow-inner">
+                    <i class="fa-solid fa-trophy text-4xl text-black"></i>
+                </div>
+            </div>
+            
+            <h2 class="text-3xl title-font font-semibold mb-6 leading-tight text-white">Félicitations.</h2>
+            
+            <div class="space-y-6 text-left text-lg leading-relaxed text-amber-100">
+                <p>Tu es officiellement la première personne à être arrivée jusqu'au bout de cette aventure.</p>
+                <p>Tu pensais avoir découvert la dernière carte...</p>
+                <p class="italic">Mais il restait encore un secret.</p>
+            </div>
         </div>
-      </div>
+
+        <button onclick="startReveal()" 
+                id="reveal-btn"
+                class="mt-12 group relative px-10 py-6 bg-gradient-to-r from-amber-400 to-yellow-600 text-black font-semibold text-xl rounded-2xl overflow-hidden hover:scale-105 active:scale-95 shadow-2xl shadow-amber-500/50 flex items-center gap-3">
+            <span>Découvrir la véritable récompense</span>
+            <i class="fa-solid fa-arrow-right group-active:rotate-45"></i>
+        </button>
+
+        <div class="mt-auto pt-12 text-amber-400/50 text-xs tracking-widest">
+            Appuie une seule fois
+        </div>
     </div>
-  </div>
 
-  <canvas id="confetti" class="hidden fixed inset-0 z-50 pointer-events-none"></canvas>
+    <!-- Reveal Screen -->
+    <div id="reveal-screen" class="hidden relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center w-full max-w-md mx-auto">
+        <div class="max-w-lg w-full space-y-16">
+            
+            <!-- First message sequence -->
+            <div id="intro-texts" class="space-y-10 text-left">
+                <p id="line1" class="reveal-section text-2xl leading-relaxed text-amber-100">“Il existe des récompenses qui ne se gagnent pas...”</p>
+                <p id="line2" class="reveal-section text-2xl leading-relaxed text-amber-100">“Celles qui changent une vie.”</p>
+                <p id="line3" class="reveal-section text-3xl leading-tight title-font text-white">“Et aujourd’hui...”</p>
+                <p id="line4" class="reveal-section text-3xl leading-tight title-font text-amber-200">“C’est à toi de découvrir la plus belle d’entre elles.”</p>
+            </div>
 
-  <script>
-    function startExperience() {
-      document.getElementById('screen1').style.opacity = '0';
-      setTimeout(() => {
-        document.getElementById('screen1').classList.add('hidden');
-        document.getElementById('wheelScreen').classList.remove('hidden');
+            <!-- Big Reveal -->
+            <div id="big-reveal" class="reveal-section hidden flex flex-col items-center py-8">
+                <div class="flex gap-6 text-6xl mb-6">
+                    <span class="heart text-red-500">❤️</span>
+                </div>
+                <div class="title-font text-6xl md:text-7xl font-bold tracking-tighter leading-none text-white mb-2">TU VAS DEVENIR</div>
+                <div class="title-font text-8xl md:text-9xl font-bold tracking-[-4px] leading-none bg-gradient-to-b from-amber-300 to-amber-500 bg-clip-text text-transparent mb-4">MAMIE</div>
+                <div class="flex gap-6 text-6xl">
+                    <span class="heart text-red-500">❤️</span>
+                </div>
+            </div>
 
-        document.getElementById('wheel').style.transform = 'rotate(3340deg)';
+            <!-- Final texts -->
+            <div id="final-texts" class="hidden space-y-12 text-center">
+                <div class="space-y-8">
+                    <p class="reveal-section text-2xl text-amber-100">"Notre plus belle aventure ne fait que commencer..."</p>
+                    <p class="reveal-section text-2xl text-amber-100">"Et nous avions tellement hâte de partager cette nouvelle avec toi."</p>
+                    <p class="reveal-section text-3xl title-font text-white">"Un petit bonheur est en chemin..."</p>
+                </div>
+                
+                <div class="pt-8">
+                    <div class="text-7xl mb-6">👶</div>
+                    <div class="title-font text-4xl text-amber-300">Bébé arrive en janvier 2027</div>
+                </div>
+                
+                <div class="pt-12 border-t border-amber-400/30">
+                    <p class="text-3xl title-font text-white">Nous t'aimons.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        setTimeout(() => {
-          document.getElementById('wheelScreen').classList.add('hidden');
-          document.getElementById('cardScreen').classList.remove('hidden');
-        }, 4300);
-      }, 700);
-    }
+    <!-- Heart canvas -->
+    <canvas id="heartCanvas" class="absolute inset-0 z-20 pointer-events-none hidden"></canvas>
 
-    function flipCard() {
-      document.getElementById('mysteryCard').classList.add('flipped');
-      setTimeout(launchConfetti, 800);
-    }
+    <script>
+        // Tailwind script already loaded via CDN
+        function initTailwind() {
+            // Already configured via CDN
+        }
 
-    function launchConfetti() {
-      const canvas = document.getElementById('confetti');
-      canvas.classList.remove('hidden');
-      const ctx = canvas.getContext('2d');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
-      const colors = ['#d4af37', '#fcd34d', '#b45309'];
-      const pieces = [];
-      for (let i = 0; i < 200; i++) {
-        pieces.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * -400,
-          size: Math.random() * 13 + 7,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          speed: Math.random() * 8 + 5,
-          angle: Math.random() * 1.2 - 0.6,
-          rot: Math.random() * 360
-        });
-      }
-
-      function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let alive = false;
-        pieces.forEach(p => {
-          p.y += p.speed;
-          p.rot += 12;
-          p.x += p.angle;
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.rot * Math.PI / 180);
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-          ctx.restore();
-          if (p.y < canvas.height + 100) alive = true;
-        });
-        if (alive) requestAnimationFrame(animate);
-        else canvas.classList.add('hidden');
-      }
-      animate();
-    }
-  </script>
+        // Background particles
+        let bgCanvas, bgCtx;
+        let particles = [];
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.6 + 0.3;
+                this.hue = Math.random() > 0.5 ? 45 : 30;
+            }
+            
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x < 0 || this.x > window.innerWidth) this.speedX *= -1;
+                if (this.y < 0 || this.y > window.innerHeight) this.speedY *= -1;
+            }
+            
+            draw() {
+                bgCtx.save();
+                bgCtx.globalAlpha = this.opacity;
+                bgCtx.fillStyle = `hsl(${this.hue}, 90%, 85%)`;
+                bgCtx.shadowBlur = 15;
+                bgCtx.shadowColor = `hsl(${this.hue}, 100%, 70%)`;
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fill();
+                bgCtx.restore();
+            }
+        }
+        
+        function initBackground() {
+            bgCanvas = document.getElementById('bgCanvas');
+            bgCtx = bgCanvas.getContext('2d');
+            
+            function resizeCanvas() {
+                bgCanvas.width = window.innerWidth;
+                bgCanvas.height = window.innerHeight;
+            }
+            
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            
+            particles = [];
+            for (let i = 0; i < 80; i++) {
+                particles.push(new Particle());
+            }
+            
+            function animateBg() {
+                bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animateBg);
+            }
+            
+            animateBg();
+        }
+        
+        // Heart rain
+        let heartCanvas, heartCtx;
+        let hearts = [];
+        
+        class Heart {
+            constructor() {
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight * -1;
+                this.size = Math.random() * 22 + 18;
+                this.speed = Math.random() * 3.5 + 2.5;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+                this.opacity = Math.random() * 0.4 + 0.7;
+            }
+            
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotationSpeed;
+                if (this.y > window.innerHeight + 50) {
+                    this.y = -50;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+            
+            draw() {
+                heartCtx.save();
+                heartCtx.globalAlpha = this.opacity;
+                heartCtx.translate(this.x, this.y);
+                heartCtx.rotate(this.rotation * Math.PI / 180);
+                heartCtx.font = `${this.size}px serif`;
+                heartCtx.textAlign = "center";
+                heartCtx.textBaseline = "middle";
+                heartCtx.fillText("❤️", 0, 0);
+                heartCtx.restore();
+            }
+        }
+        
+        function initHeartCanvas() {
+            heartCanvas = document.getElementById('heartCanvas');
+            heartCtx = heartCanvas.getContext('2d');
+            
+            function resizeHeartCanvas() {
+                heartCanvas.width = window.innerWidth;
+                heartCanvas.height = window.innerHeight;
+            }
+            
+            window.addEventListener('resize', resizeHeartCanvas);
+            resizeHeartCanvas();
+        }
+        
+        function startHeartRain(duration = 6500) {
+            const heartCanvasEl = document.getElementById('heartCanvas');
+            heartCanvasEl.classList.remove('hidden');
+            hearts = [];
+            
+            for (let i = 0; i < 45; i++) {
+                hearts.push(new Heart());
+            }
+            
+            let startTime = Date.now();
+            
+            function animateHearts() {
+                heartCtx.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
+                
+                for (let i = 0; i < hearts.length; i++) {
+                    hearts[i].update();
+                    hearts[i].draw();
+                }
+                
+                if (Date.now() - startTime < duration) {
+                    requestAnimationFrame(animateHearts);
+                } else {
+                    // Fade out
+                    setTimeout(() => {
+                        heartCanvasEl.classList.add('hidden');
+                    }, 1800);
+                }
+            }
+            
+            animateHearts();
+        }
+        
+        // Sequence controller
+        function startReveal() {
+            const initial = document.getElementById('initial-screen');
+            const reveal = document.getElementById('reveal-screen');
+            
+            // Fade out initial
+            initial.style.transition = 'opacity 1.8s cubic-bezier(0.65, 0, 0.35, 1)';
+            initial.style.opacity = '0';
+            
+            setTimeout(() => {
+                initial.classList.add('hidden');
+                reveal.classList.remove('hidden');
+                reveal.style.opacity = '1';
+                
+                // Start sequence
+                startTextSequence();
+            }, 1600);
+        }
+        
+        function startTextSequence() {
+            const lines = [
+                document.getElementById('line1'),
+                document.getElementById('line2'),
+                document.getElementById('line3'),
+                document.getElementById('line4')
+            ];
+            
+            let delay = 0;
+            
+            lines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.animationDelay = '0ms';
+                    line.classList.add('fade-in');
+                }, delay);
+                delay += 1100;
+            });
+            
+            // Show big reveal
+            setTimeout(() => {
+                document.getElementById('big-reveal').classList.remove('hidden');
+                document.getElementById('big-reveal').classList.add('fade-in');
+                
+                // Trigger heart rain
+                startHeartRain(7200);
+            }, 5200);
+            
+            // Show final texts
+            setTimeout(() => {
+                document.getElementById('final-texts').classList.remove('hidden');
+                
+                const finalLines = document.querySelectorAll('#final-texts .reveal-section');
+                let fDelay = 300;
+                
+                finalLines.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.classList.add('fade-in');
+                    }, fDelay);
+                    fDelay += 950;
+                });
+            }, 10500);
+        }
+        
+        // Keyboard support
+        function handleKey(e) {
+            if (e.key === "Enter" || e.key === " ") {
+                const btn = document.getElementById('reveal-btn');
+                if (!document.getElementById('reveal-screen').classList.contains('hidden')) return;
+                if (btn) btn.click();
+            }
+        }
+        
+        // Initialize everything
+        window.onload = function() {
+            initBackground();
+            initHeartCanvas();
+            initTailwind();
+            
+            // Make body fully visible
+            document.documentElement.style.height = '100%';
+            
+            // Keyboard
+            document.addEventListener('keydown', handleKey);
+            
+            // Touch feedback on button
+            const btn = document.getElementById('reveal-btn');
+            btn.addEventListener('touchstart', () => {
+                btn.style.transform = 'scale(0.95)';
+            });
+        };
+        
+        // Prevent zoom on double tap
+        document.addEventListener('touchend', function(e) {
+            if (e.touches.length === 0) {
+                // noop
+            }
+        }, false);
+    </script>
 </body>
 </html>
